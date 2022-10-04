@@ -5,16 +5,20 @@ import (
 	"fmt"
 	"log"
 	"time"
-
+	"os"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"github.com/joho/godotenv"
 )
 
 func ConnectDB() *mongo.Client {
+	err := godotenv.Load()
+	url := os.Getenv("DATABASE")
+	fmt.Println(url)
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(string(url)))
 	if err != nil {
 		log.Fatal(err)
 	}
