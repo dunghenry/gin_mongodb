@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  be:
+    container_name: go
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env
+    volumes:
+      - "./:/app/"
+    networks:
+      - trandung
+networks:
+  trandung:
